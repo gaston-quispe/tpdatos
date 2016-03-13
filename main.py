@@ -5,4 +5,4 @@ with open('data/_train.csv', 'rb') as f:
     next(reader)
     for row in reader:
         row_int = map(int, row)
-        print(typºe(row_int[0]))
+        print(type(row_int[0]))
