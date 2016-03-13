@@ -2,7 +2,7 @@
 
 def distancia_minkowsky(puntoA, puntoB, p):
     sumatoria = 0
-    for i in puntoA:
+    for i in range(0,len(puntoA)):
         sumatoria += abs(puntoA[i]-puntoB[i])**p
     return sumatoria**(1/p)
 
