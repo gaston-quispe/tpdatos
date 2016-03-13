@@ -1,4 +1,5 @@
 from src.knn import knn_1element
+from src.metricas import distancia_manhattan
 from src.utiles import imprimir_imagen
 
 #es un 7
@@ -15,5 +16,5 @@ numero_sacado_de_train = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 
 imprimir_imagen(numero_sacado_de_train, (28, 28), 'numero_sacado_de_train.png')
 
-numeroClasificado = knn_1element(45, 3, numero_sacado_de_train)
+numeroClasificado = knn_1element(distancia_manhattan, 3, numero_sacado_de_train)
 print(numeroClasificado)

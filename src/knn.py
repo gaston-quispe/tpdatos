@@ -1,9 +1,6 @@
 import csv
 import operator
 
-from metricas import distancia_manhattan
-
-
 def knn_1element(metric, k, elementToclassify):
 
     #lista con los k elementos mas cercanos al elementToClassify
@@ -21,7 +18,7 @@ def knn_1element(metric, k, elementToclassify):
             #ademas convierto el vector de strings a un vector de enteros
             element = map(int, line[1:])
 
-            info_elem = { 'clase': clase, 'distancia': distancia_manhattan(elementToclassify, element) }
+            info_elem = { 'clase': clase, 'distancia': metric(elementToclassify, element) }
 
             #cargo los k elementos mas cercanos al vector segun vayan apareciendo
             #orderno la lista para q el ultimo elemento siempre sea el mas grande, fiaca
