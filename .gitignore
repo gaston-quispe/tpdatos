@@ -3,4 +3,4 @@ README.md~
 .gitignore~
 data/test.csv
 data/train.csv
-
+*~
