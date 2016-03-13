@@ -1,6 +1,10 @@
-#Punto es una linea leida desde el archivo csv
-#Punto es un vector del tipo string
+#Punto es una lista de integers
 
-def manhattan(punto):
+def distancia_manhattan(puntoA, puntoB):
+
+    return 0
+
+
+def distancia_hamming(puntoA, puntoB):
 
     return 0
