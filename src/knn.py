@@ -1,24 +1,24 @@
 import csv
 import operator
 
-def knn_1element(metric, k, elementToclassify):
+def knn_1element(traincsv, metrica, k, elementoAclasificar):
 
     #lista con los k elementos mas cercanos al elementToClassify
     #cada elemento de esta lista es un diccionario con: clase y distancia
     kElementos = []
 
-    with open('data/_train.csv', 'rb') as f:
-        setofTrain = csv.reader(f)
-        next(setofTrain)
+    with open(traincsv, 'rb') as f:
+        setDeEntrenamiento = csv.reader(f)
+        next(setDeEntrenamiento)
 
-        for line in setofTrain:
+        for line in setDeEntrenamiento:
             #el primer elemento de la linea es la clase
             clase = int(line[0])
             #el primer elemento de la linea es la clase, asi q la saco del vector
             #ademas convierto el vector de strings a un vector de enteros
             element = map(int, line[1:])
 
-            info_elem = { 'clase': clase, 'distancia': metric(elementToclassify, element) }
+            info_elem = { 'clase': clase, 'distancia': metrica(elementoAclasificar, element)}
 
             #cargo los k elementos mas cercanos al vector segun vayan apareciendo
             #orderno la lista para q el ultimo elemento siempre sea el mas grande, fiaca
@@ -51,3 +51,18 @@ def knn_1element(metric, k, elementToclassify):
 
         #devuelvo la clase del elementToclassify
         return indiceClaseMayor
+
+def knn(traincsv, testcsv, metrica, k):
+
+    with open(testcsv, 'rb') as f:
+        setDeTest = csv.reader(f)
+        next(setDeTest)
+
+        listaClases = []
+
+        for line in setDeTest:
+            elementoAclasificar = map(int, line)
+            claseElemento = knn_1element(traincsv, metrica, k, elementoAclasificar)
+            listaClases.append(claseElemento)
+
+    return listaClases
