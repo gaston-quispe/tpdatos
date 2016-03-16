@@ -12,7 +12,7 @@ def distancia_minkowsky(puntoA, puntoB, p):
 
     for i in range(0,longitud):
         sumatoria += abs(puntoA[i]-puntoB[i])**p
-    return sumatoria**(1/p)
+    return sumatoria**(1.0/p)
 
 def distancia_manhattan(puntoA, puntoB):
     return distancia_minkowsky(puntoA,puntoB, 1)
