@@ -25,7 +25,7 @@ def distancia_hamming(puntoA, puntoB):
 
 def distancia_mahalanobis(puntoA, puntoB):
 
-     return 0
+    return 0
 
 def norma_infinito(puntoA, puntoB):
     distancia = 0
