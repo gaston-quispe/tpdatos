@@ -1,9 +1,4 @@
+data
 .idea
-README.md~
-.gitignore~
-data/test.csv
-data/train.csv
-numero_sacado_de_train.png
-salidas
 *.pyc
 *~
