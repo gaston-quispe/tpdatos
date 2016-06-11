@@ -6,10 +6,8 @@ import utils
 from Utils.Logger import Logger
 from Utils.DataExtractor import dataExtraction
 from Utils.utils import generarCarpeta
-from keras.layers import Convolution2D, MaxPooling2D
+from keras.layers import ZeroPadding2D, Convolution2D, MaxPooling2D
 from keras.layers import Dense, Dropout, Activation, Flatten
-import keras.layers.convolutional as conv
-import keras.layers.core as core
 from keras.models import Sequential
 import keras.models as models
 from keras.utils import np_utils
@@ -50,40 +48,37 @@ dariusTest  = "/home/darius/workspace/test.csv"
 set_train = pandas.read_csv(dariusTrain).values
 set_test = pandas.read_csv(dariusTest).values
 
-set_train_particion, set_train_test = utils.particionar_train_test(set_train, 0.80)
+set_train_particion, set_validacion = utils.particionar_train_test(set_train, 0.70)
 
 #Separamos los datos (la primer columna contiene la clase de cada imagen).
 Y_train = set_train_particion[:, 0]
 X_train = set_train_particion[:, 1:]
-X_test = set_train_test[:, 1:]
-Y_test = set_train_test[:, 0]
+X_validacion = set_validacion[:, 1:]
+Y_validacion = set_validacion[:, 0]
+
+#X_test es el set que debemos clasificar y submittear en kaggle.
+X_test = set_test
 
 X_train = X_train.reshape(X_train.shape[0], 1, img_rows, img_cols)
-X_test = X_test.reshape(X_test.shape[0], 1, img_rows, img_cols)
+X_validacion = X_validacion.reshape(X_validacion.shape[0], 1, img_rows, img_cols)
 
 X_train = X_train.astype('float32')
-X_test = X_test.astype('float32')
+X_validacion = X_validacion.astype('float32')
 
 #Normalizacion
 X_train /= 255.0
-X_test /= 255.0
+X_validacion /= 255.0
 
 Y_train = np_utils.to_categorical(Y_train)
-Y_test = np_utils.to_categorical(Y_test)
+Y_validacion = np_utils.to_categorical(Y_validacion)
 cnn = Sequential()
 
-cnn.add(conv.ZeroPadding2D((1,1), input_shape=(1, 28, 28),))
-cnn.add(conv.Convolution2D(n_filters_1, n_conv, n_conv,  activation="relu"))
-cnn.add(conv.MaxPooling2D(strides=(2,2)))
-
-cnn.add(conv.ZeroPadding2D((1, 1)))
-cnn.add(conv.Convolution2D(n_filters_2, n_conv, n_conv, activation="relu"))
-cnn.add(conv.MaxPooling2D(strides=(2,2)))
-
-cnn.add(core.Flatten())
-cnn.add(core.Dropout(0.2))
-cnn.add(core.Dense(128, activation="relu"))
-cnn.add(core.Dense(n_classes, activation="softmax"))
+cnn.add(ZeroPadding2D((1,1), input_shape=(1, 28, 28),))
+cnn.add(Convolution2D(n_filters_1, n_conv, n_conv,  activation="relu"))
+cnn.add(MaxPooling2D(strides=(2,2)))
+cnn.add(Flatten())
+cnn.add(Dense(128, activation="relu"))
+cnn.add(Dense(n_classes, activation="softmax"))
 
 cnn.summary()
 cnn.compile(loss="categorical_crossentropy", optimizer="adadelta", metrics=["accuracy"])
