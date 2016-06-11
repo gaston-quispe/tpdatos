@@ -1,13 +1,28 @@
-import numpy as np
 import pandas
+import sys
+
 import utils
-import keras.layers.core as core
+
+from Utils.Logger import Logger
+from Utils.DataExtractor import dataExtraction
+from Utils.utils import generarCarpeta
+from keras.layers import Convolution2D, MaxPooling2D
+from keras.layers import Dense, Dropout, Activation, Flatten
 import keras.layers.convolutional as conv
+import keras.layers.core as core
+from keras.models import Sequential
 import keras.models as models
 from keras.utils import np_utils
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation, Flatten
-from keras.layers import Convolution2D, MaxPooling2D
+
+
+
+#########GENERAR CARPETA Y OBTENER DATOS##############
+# Se genera una carpeta nueva por cada compilacion
+# En esa carpeta se guardan los datos recolectados
+carpeta = generarCarpeta()
+archivo_generado = carpeta+"/datosBrutos.log"
+sys.stdout = Logger(archivo_generado)
+######################################################
 
 n_classes = 10
 n_epoch = 1
@@ -26,8 +41,14 @@ n_filters_2 = 128
 n_filters_3 = 256
 
 print("Cargando set de datos.")
-set_train = pandas.read_csv('/home/val/mnist/train.csv').values
-set_test = pandas.read_csv('/home/val/mnist/test.csv').values
+
+valeTrain = '/home/val/mnist/train.csv'
+valeTest  = '/home/val/mnist/test.csv'
+dariusTrain = "/home/darius/workspace/train.csv"
+dariusTest  = "/home/darius/workspace/test.csv"
+
+set_train = pandas.read_csv(dariusTrain).values
+set_test = pandas.read_csv(dariusTest).values
 
 set_train_particion, set_train_test = utils.particionar_train_test(set_train, 0.80)
 
@@ -71,3 +92,11 @@ cnn.fit(X_train, Y_train, batch_size=batch_size, nb_epoch=n_epoch, verbose=1, va
 score = cnn.evaluate(X_test, Y_test, verbose=0)
 print('Test score:', score[0])
 print('Test accuracy:', score[1])
+
+############PLOTEO############
+'''archivo generado da el path de los datos'''
+dataExtraction(carpeta)
+
+
+
+##############################
