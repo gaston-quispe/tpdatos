@@ -9,27 +9,27 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Convolution2D, MaxPooling2D
 
-nb_classes = 10
-nb_epoch = 1
+n_classes = 10
+n_epoch = 1
 batch_size = 128
 # input image dimensions
 img_rows, img_cols = 28, 28
 # number of convolutional filters to use
-nb_filters = 32
+n_filters = 32
 # size of pooling area for max pooling
-nb_pool = 2
+n_pool = 2
 # convolution kernel size
-nb_conv = 3
+n_conv = 3
 
-nb_filters_1 = 64
-nb_filters_2 = 128
-nb_filters_3 = 256
+n_filters_1 = 64
+n_filters_2 = 128
+n_filters_3 = 256
 
 print("Cargando set de datos.")
 set_train = pandas.read_csv('/home/val/mnist/train.csv').values
 set_test = pandas.read_csv('/home/val/mnist/test.csv').values
 
-set_train_particion, set_train_test = utils.particionar_train_test(set_train, 0.75)
+set_train_particion, set_train_test = utils.particionar_train_test(set_train, 0.80)
 
 #Separamos los datos (la primer columna contiene la clase de cada imagen).
 Y_train = set_train_particion[:, 0]
@@ -49,27 +49,25 @@ X_test /= 255.0
 
 Y_train = np_utils.to_categorical(Y_train)
 Y_test = np_utils.to_categorical(Y_test)
-modelo = Sequential()
+cnn = Sequential()
 
-#Aqui inicia la red
-modelo.add(conv.ZeroPadding2D((1,1), input_shape=(1, 28, 28),))
-modelo.add(conv.Convolution2D(nb_filters_1, nb_conv, nb_conv,  activation="relu"))
-modelo.add(conv.MaxPooling2D(strides=(2,2)))
+cnn.add(conv.ZeroPadding2D((1,1), input_shape=(1, 28, 28),))
+cnn.add(conv.Convolution2D(n_filters_1, n_conv, n_conv,  activation="relu"))
+cnn.add(conv.MaxPooling2D(strides=(2,2)))
 
-modelo.add(conv.ZeroPadding2D((1, 1)))
-modelo.add(conv.Convolution2D(nb_filters_2, nb_conv, nb_conv, activation="relu"))
-modelo.add(conv.MaxPooling2D(strides=(2,2)))
+cnn.add(conv.ZeroPadding2D((1, 1)))
+cnn.add(conv.Convolution2D(n_filters_2, n_conv, n_conv, activation="relu"))
+cnn.add(conv.MaxPooling2D(strides=(2,2)))
 
-modelo.add(core.Flatten())
-modelo.add(core.Dropout(0.2))
-modelo.add(core.Dense(128, activation="relu"))
-modelo.add(core.Dense(nb_classes, activation="softmax"))
+cnn.add(core.Flatten())
+cnn.add(core.Dropout(0.2))
+cnn.add(core.Dense(128, activation="relu"))
+cnn.add(core.Dense(n_classes, activation="softmax"))
 
-modelo.summary()
-modelo.compile(loss="categorical_crossentropy", optimizer="adadelta", metrics=["accuracy"])
-#Fin de la red
+cnn.summary()
+cnn.compile(loss="categorical_crossentropy", optimizer="adadelta", metrics=["accuracy"])
 
-modelo.fit(X_train, Y_train, batch_size=batch_size, nb_epoch=nb_epoch, verbose=1, validation_data=(X_test, Y_test))
-score = modelo.evaluate(X_test, Y_test, verbose=0)
+cnn.fit(X_train, Y_train, batch_size=batch_size, nb_epoch=n_epoch, verbose=1, validation_data=(X_test, Y_test))
+score = cnn.evaluate(X_test, Y_test, verbose=0)
 print('Test score:', score[0])
 print('Test accuracy:', score[1])
