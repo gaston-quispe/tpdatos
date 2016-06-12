@@ -34,9 +34,9 @@ n_pool = 2
 # convolution kernel size
 n_conv = 3
 
-n_filters_1 = 64
-n_filters_2 = 128
-n_filters_3 = 256
+n_filters_1 = 32
+n_filters_2 = 64
+n_filters_3 = 128
 
 print("Cargando set de datos.")
 
