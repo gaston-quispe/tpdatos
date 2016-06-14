@@ -34,9 +34,9 @@ n_pool = 2
 # convolution kernel size
 n_conv = 3
 
-n_filters_1 = 64
-n_filters_2 = 128
-n_filters_3 = 256
+n_filters_1 = 32
+n_filters_2 = 64
+n_filters_3 = 128
 
 print("Cargando set de datos.")
 
@@ -83,8 +83,8 @@ cnn.add(Dense(n_classes, activation="softmax"))
 cnn.summary()
 cnn.compile(loss="categorical_crossentropy", optimizer="adadelta", metrics=["accuracy"])
 
-cnn.fit(X_train, Y_train, batch_size=batch_size, nb_epoch=n_epoch, verbose=1, validation_data=(X_test, Y_test))
-score = cnn.evaluate(X_test, Y_test, verbose=0)
+cnn.fit(X_train, Y_train, batch_size=batch_size, nb_epoch=n_epoch, verbose=1, validation_data=(X_validacion, Y_validacion))
+score = cnn.evaluate(X_validacion, Y_validacion, verbose=0)
 print('Test score:', score[0])
 print('Test accuracy:', score[1])
 
