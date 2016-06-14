@@ -9,7 +9,7 @@ from Utils.DataExtractor import dataExtraction
 class Test(unittest.TestCase):
 
     def setUp(self):
-        self.folderPath = "/home/darius/workspace/RESULTADOSTP/11_001059"
+        self.folderPath = "/home/darius/workspace/RESULTADOSTP/14_010632"
         
     def testDataExtraction(self):
         dataExtraction(self.folderPath)
