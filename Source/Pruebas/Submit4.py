@@ -16,9 +16,9 @@ from keras.utils import np_utils
 #########GENERAR CARPETA Y OBTENER DATOS##############
 # Se genera una carpeta nueva por cada compilacion
 # En esa carpeta se guardan los datos recolectados
-#carpeta = generarCarpeta()
-#archivo_generado = carpeta+"/datosBrutos.log"
-#sys.stdout = Logger(archivo_generado)
+carpeta = generarCarpeta()
+archivo_generado = carpeta+"/datosBrutos.log"
+sys.stdout = Logger(archivo_generado)
 ######################################################
 
 n_classes = 10
@@ -107,22 +107,25 @@ cnn.summary()
 cnn.compile(loss="categorical_crossentropy", optimizer="adadelta", metrics=["accuracy"])
 
 #cnn.fit(X_train, Y_train, batch_size=batch_size, nb_epoch=n_epoch, verbose=1, validation_split = 0.2)
-#cnn.save_weights(carpeta + '/weights.h5')
-cnn.load_weights('/home/darius/workspace/RESULTADOSTP/14_010632/weights.h5')
 
-#score = cnn.evaluate(X_validacion, Y_validacion, verbose=0)
-#print('Test score:', score[0])
-#print('Test accuracy:', score[1])
+#######GUARDAR Y CARGAR PESOS#############
+cnn.save_weights(carpeta + '/weights.h5')
+#cnn.load_weights('/home/darius/workspace/RESULTADOSTP/14_010632/weights.h5')
+##########################################
+
+score = cnn.evaluate(X_validacion, Y_validacion, verbose=0)
+print('Test score:', score[0])
+print('Test accuracy:', score[1])
 
 
 ############PREDECIR TEST SET################
-predicciones = cnn.predict_classes(X_test, verbose=0)
-pandas.DataFrame({"ImageId": list(range(1,len(predicciones)+1)), "Label":predicciones}).to_csv('Submit4.csv', index=False, header=True)
+#predicciones = cnn.predict_classes(X_test, verbose=0)
+#pandas.DataFrame({"ImageId": list(range(1,len(predicciones)+1)), "Label":predicciones}).to_csv('Submit4.csv', index=False, header=True)
 #############################################
 
 ############PLOTEO############
 '''archivo generado da el path de los datos'''
-#dataExtraction(carpeta)
+dataExtraction(carpeta)
 
 ##############################
 

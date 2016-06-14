@@ -1,4 +1,4 @@
-
+import csv
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -8,15 +8,23 @@ import numpy as np
 def plotear(archivoDeDatos,savingFolder):
     
     datos = ['loss','accuracy']
-    data = np.genfromtxt(archivoDeDatos,delimiter = ',',skip_header = 1,skip_footer = 1,names = datos)
     
+    row_count = sum(1 for row in archivoDeDatos)
+
+    data = np.genfromtxt(archivoDeDatos,delimiter = ',',skip_header = 1,skip_footer = 1,names = datos)
+
     for i in datos:
+
+        
         fig = plt.figure()
         ax1 = fig.add_subplot(111)
         ax1.plot(data[i],color='r', label=i)
-        #plt.show()
-        direccion = savingFolder+"/"+i+".png"
-        plt.savefig(direccion)
+        plt.grid(True)
+        plt.xlabel('batchs')
+        plt.ylabel(i)
+        plt.show()
+        #direccion = savingFolder+"/"+i+".png"
+        #plt.savefig(direccion)
         plt.close()
 
 if __name__ == '__main__':

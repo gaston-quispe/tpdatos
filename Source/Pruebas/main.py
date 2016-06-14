@@ -74,6 +74,7 @@ cnn.add(ZeroPadding2D((1,1), input_shape=(1, 28, 28),))
 cnn.add(Convolution2D(n_filters_1, n_conv, n_conv,  activation="relu"))
 cnn.add(MaxPooling2D(strides=(2,2)))
 cnn.add(Flatten())
+
 cnn.add(Dense(128, activation="relu"))
 cnn.add(Dense(n_classes, activation="softmax"))
 
