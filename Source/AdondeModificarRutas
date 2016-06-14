@@ -1,5 +1,0 @@
-Modifiquen como les convenga la ruta en donde se va a generar la carpeta con los datos en:
-
-utils.generarCarpeta()
-
-y bueno aparte el main, lo mismo de antes, para llegar al test set y train set.
